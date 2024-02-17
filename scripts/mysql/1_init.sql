@@ -1,0 +1,11 @@
+CREATE DATABASE IF NOT EXISTS binl;
+USE binl;
+
+CREATE TABLE IF NOT EXISTS metrics (
+  id            INT NOT NULL AUTO_INCREMENT,
+  `description` VARCHAR(50) NULL,
+  `value`       DOUBLE NOT NULL,
+  created_at    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  PRIMARY KEY (id)
+);

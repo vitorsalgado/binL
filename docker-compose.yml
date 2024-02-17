@@ -1,0 +1,40 @@
+version: "4.0"
+
+services:
+  reader:
+    build:
+      context: ./
+    environment:
+      - DB_CONN=root:@tcp(mysql:3306)/binl
+      - DB_CANAL_ADDR=mysql:3306
+      - DB_CANAL_USER=root
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql
+    command: [ --default-time-zone=+00:00 ]
+    hostname: mysql
+    environment:
+      TZ: UTC
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: binl
+    ports:
+      - 3306:3306
+    volumes:
+      - db_data:/var/lib/mysql:rw
+      - ./scripts/mysql:/docker-entrypoint-initdb.d:rw
+
+  adminer:
+    image: adminer:latest
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+
+volumes:
+  db_data:
