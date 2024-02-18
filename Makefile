@@ -18,6 +18,10 @@ up: ## start all systems
 down: ## close everything
 	@docker-compose down
 
+.PHONY: build
+build: ## builds the reader application
+	@go build -o build/ ./...
+
 .PHONY: rm
 rm: ## cleanup everything
 	@docker-compose down --remove-orphans --volumes
