@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"log/slog"
 
 	"github.com/go-mysql-org/go-mysql/canal"
@@ -67,6 +68,7 @@ func (e *EventHandler) OnRotate(header *replication.EventHeader, r *replication.
 }
 
 func (e *EventHandler) OnRow(evt *canal.RowsEvent) error {
+	ctx := context.Background()
 	attr := make([]slog.Attr, 0)
 	attr = append(attr,
 		slog.String("event_type", evt.Header.EventType.String()),
@@ -74,7 +76,7 @@ func (e *EventHandler) OnRow(evt *canal.RowsEvent) error {
 		slog.String("action", evt.Action))
 
 	if evt.Table == nil {
-		e.logger.Info("OnRow", attr)
+		e.logger.LogAttrs(ctx, slog.LevelInfo, "OnRow", attr...)
 		return nil
 	}
 
@@ -87,9 +89,9 @@ func (e *EventHandler) OnRow(evt *canal.RowsEvent) error {
 
 	attr = append(attr,
 		slog.String("table", evt.Table.String()),
-		slog.Group("columns", columns))
+		slog.Group("columns", slog.Attr{Value: slog.GroupValue(columns...)}))
 
-	e.logger.Info("OnRow", attr)
+	e.logger.LogAttrs(ctx, slog.LevelInfo, "OnRow", attr...)
 
 	return nil
 }

@@ -23,8 +23,8 @@ func main() {
 	defer cancel()
 
 	var db *sql.DB
-	limit := 3
-	backoff := 2 * time.Second
+	limit := 5
+	backoff := 3 * time.Second
 	factor := 2
 	for i := 0; i < limit; i++ {
 		if i > 0 {
@@ -56,25 +56,25 @@ func main() {
 		return
 	}
 
-	cfg := canal.NewDefaultConfig()
-	cfg.Addr = conf.CanalAddr
-	cfg.User = conf.CanalUser
-	cfg.Password = conf.CanalPassword
-	cfg.ServerID = 1
-	cfg.Flavor = "mysql"
-	cfg.Dump = canal.DumpConfig{}
-	cfg.IncludeTableRegex = conf.CanalTableRegex
+	canalConf := canal.NewDefaultConfig()
+	canalConf.Dump = canal.DumpConfig{ExecutionPath: ""}
+	canalConf.Addr = conf.CanalAddr
+	canalConf.User = conf.CanalUser
+	canalConf.Password = conf.CanalPassword
+	canalConf.ServerID = 1
+	canalConf.Flavor = "mysql"
+	canalConf.IncludeTableRegex = conf.CanalTableRegex
 
 	logger.Info(fmt.Sprintf("connecting to the database on: %s", conf.ConnString))
 
-	can, err := canal.NewCanal(cfg)
+	can, err := canal.NewCanal(canalConf)
 	if err != nil {
 		logger.Error("error creating the canal", slog.String("error", err.Error()))
 		os.Exit(1)
 		return
 	}
 
-	can.SetEventHandler(&EventHandler{logger})
+	can.SetEventHandler(&RowOnlyEventHandler{logger})
 
 	go func() {
 		<-ctx.Done()
