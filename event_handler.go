@@ -80,7 +80,7 @@ func (e *EventHandler) OnRow(evt *canal.RowsEvent) error {
 		return nil
 	}
 
-	columns := make([]slog.Attr, len(evt.Table.Columns))
+	columns := make([]slog.Attr, 0, len(evt.Table.Columns)*2)
 	for _, v := range evt.Table.Columns {
 		columns = append(columns,
 			slog.String("name", v.Name),
