@@ -25,10 +25,15 @@ func (e *EventHandler) OnDDL(header *replication.EventHeader, nextPos mysql.Posi
 	return nil
 }
 
-func (e *EventHandler) OnGTID(header *replication.EventHeader, gtid mysql.GTIDSet) error {
+func (e *EventHandler) OnGTID(header *replication.EventHeader, evt mysql.BinlogGTIDEvent) error {
+	n, err := evt.GTIDNext()
+	if err != nil {
+		return err
+	}
+
 	e.logger.Info("OnGTID",
 		slog.String("event_type", header.EventType.String()),
-		slog.String("gtid", gtid.String()))
+		slog.String("gtid", n.String()))
 
 	return nil
 }
@@ -117,6 +122,11 @@ func (e *EventHandler) OnXID(header *replication.EventHeader, pos mysql.Position
 		slog.String("event_type", header.EventType.String()),
 		slog.String("pos", pos.String()))
 
+	return nil
+}
+
+func (e *EventHandler) OnRowsQueryEvent(evt *replication.RowsQueryEvent) error {
+	e.logger.Info("OnRowsQueryEvent", slog.String("query", string(evt.Query)))
 	return nil
 }
 

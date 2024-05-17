@@ -19,7 +19,7 @@ func (e *RowOnlyEventHandler) OnDDL(header *replication.EventHeader, nextPos mys
 	return nil
 }
 
-func (e *RowOnlyEventHandler) OnGTID(header *replication.EventHeader, gtid mysql.GTIDSet) error {
+func (e *RowOnlyEventHandler) OnGTID(header *replication.EventHeader, gtid mysql.BinlogGTIDEvent) error {
 	return nil
 }
 
@@ -81,6 +81,10 @@ func (e *RowOnlyEventHandler) OnUnmarshal(data []byte) (interface{}, error) {
 }
 
 func (e *RowOnlyEventHandler) OnXID(header *replication.EventHeader, pos mysql.Position) error {
+	return nil
+}
+
+func (e *RowOnlyEventHandler) OnRowsQueryEvent(evt *replication.RowsQueryEvent) error {
 	return nil
 }
 

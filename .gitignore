@@ -22,7 +22,9 @@
 # Go workspace file
 go.work
 
+.idea/
 .vscode/
+
 build/
 
 .env
