@@ -19,7 +19,6 @@ require (
 	github.com/pingcap/errors v0.11.5-0.20240311024730-e056997136bb // indirect
 	github.com/pingcap/failpoint v0.0.0-20240412033321-fd0796e60f86 // indirect
 	github.com/pingcap/log v1.1.1-0.20230317032135-a0d097d16e22 // indirect
-	github.com/pingcap/tidb/parser v0.0.0-20231013125129-93a834a6bf8d // indirect
 	github.com/pingcap/tidb/pkg/parser v0.0.0-20240517141313-335af251b37f // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
