@@ -4,11 +4,12 @@ go 1.22.0
 
 require (
 	github.com/go-mysql-org/go-mysql v1.7.0
-	github.com/go-sql-driver/mysql v1.7.1
+	github.com/go-sql-driver/mysql v1.8.1
 	github.com/joho/godotenv v1.5.1
 )
 
 require (
+	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/BurntSushi/toml v0.3.1 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/pingcap/errors v0.11.5-0.20210425183316-da1aaba5fb63 // indirect
