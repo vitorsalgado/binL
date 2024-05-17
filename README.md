@@ -7,4 +7,4 @@
 ## Getting Started
 
 To run a docker-compose with everything set, execute: `make up`.  
-
+The script will init the Change Data Capture example with a MySQL and also Adminer on port 8080 to manage the database.
